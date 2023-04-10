@@ -228,6 +228,18 @@ public class BuildPiece
     {
     }
 
+    public BuildPiece(string prefabName, bool addToCustom = false, string customPieceTable = "")
+    {
+        if (addToCustom)
+        {
+            Prefab = PiecePrefabManager.RegisterPrefab(prefabName, false, addToCustom, customPieceTable);
+        }
+        else
+        {
+            Prefab = PiecePrefabManager.RegisterPrefab(prefabName, true);
+        }
+    }
+
     public BuildPiece(AssetBundle bundle, string prefabName, bool addToCustom = false, string customPieceTable = "")
     {
         if (addToCustom)
@@ -1232,6 +1244,27 @@ public static class PiecePrefabManager
     public static GameObject RegisterPrefab(string assetBundleFileName, string prefabName,
         string folderName = "assets") =>
         RegisterPrefab(RegisterAssetBundle(assetBundleFileName, folderName), prefabName);
+
+    public static GameObject RegisterPrefab(string prefabName, bool addToPieceTable = false,bool addToCustomPieceTable = false, string customPieceTable = "")
+    {
+        GameObject prefab = Resources.FindObjectsOfTypeAll<GameObject>().ToList().Find(x => x.name == prefabName);
+        MaterialReplacer.RegisterGameObjectForShaderSwap(prefab, MaterialReplacer.ShaderType.UseUnityShader);
+        if (addToPieceTable)
+        {
+            piecePrefabs.Add(prefab);
+        }
+        else if (addToCustomPieceTable)
+        {
+            customPiecePrefabs.Add(prefab, customPieceTable);
+        }
+        else
+        {
+            ZnetOnlyPrefabs.Add(prefab);
+        }
+
+        return prefab;
+
+    }
 
     public static GameObject RegisterPrefab(AssetBundle assets, string prefabName, bool addToPieceTable = false,
         bool addToCustomPieceTable = false, string customPieceTable = "")
