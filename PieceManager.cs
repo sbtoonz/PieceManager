@@ -1249,6 +1249,17 @@ public static class PiecePrefabManager
     {
         GameObject prefab = Resources.FindObjectsOfTypeAll<GameObject>().ToList().Find(x => x.name == prefabName);
         MaterialReplacer.RegisterGameObjectForShaderSwap(prefab, MaterialReplacer.ShaderType.UseUnityShader);
+        if (prefab == null)
+        {
+            prefab = new GameObject();
+            prefab.AddComponent<ZNetView>();
+            prefab.AddComponent<ZSyncTransform>();
+            var p = prefab.AddComponent<Piece>();
+            p.name = "BROKEN PREFAB";
+            p.m_description =
+                "PLEASE CHECK YOUR CODE THE PREFAB YOU ARE TRYING TO USE DIDNT EXIST WHEN PIECE MANAGER LOOKED FOR IT!";
+            p.m_icon = Resources.FindObjectsOfTypeAll<Sprite>().ToList().Find(x => x.name == "AmberPearl");
+        }
         if (addToPieceTable)
         {
             piecePrefabs.Add(prefab);
@@ -1261,7 +1272,7 @@ public static class PiecePrefabManager
         {
             ZnetOnlyPrefabs.Add(prefab);
         }
-
+        
         return prefab;
 
     }
