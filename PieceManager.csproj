@@ -66,7 +66,7 @@
             <HintPath>$(GamePath)\valheim_Data\Managed\publicized_assemblies\assembly_valheim_publicized.dll</HintPath>
         </Reference>
         <Reference Include="BepInEx">
-          <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\BepInEx\core\BepInEx.dll</HintPath>
+          <HintPath>$(GamePath)\Valheim\BepInEx\core\BepInEx.dll</HintPath>
         </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
